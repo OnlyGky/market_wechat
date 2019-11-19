@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.goods.GoodsTypeDao">
+
+    <resultMap id="goodsTypeMap" type="com.in.market.pojo.goods.GoodsType">
+        <id column="type_Id" property="goodsTypeId" />
+        <result column="type_Name" property="goodsTypeName" />
+        <result column="type_Pid" property="goodsTypePid" />
+        <result column="type_Lv" property="goodsTypeLv" />
+        <result column="type_Path" property="goodsTypePath" />
+        <result column="type_State" property="goodsTypeState" />
+    </resultMap>
+    <select id="queryById" resultType="com.in.market.pojo.goods.GoodsType" resultMap="goodsTypeMap" useCache="true">
+        select * from goods_type where type_Id = #{id}
+    </select>
+    <select id="queryAll" resultMap="goodsTypeMap" resultType="com.in.market.pojo.goods.GoodsType">
+        select * from goods_type
+    </select>
+</mapper>

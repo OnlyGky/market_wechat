@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.address.AddressDao">
+
+  <resultMap id="BaseResultMap" type="com.in.market.pojo.address.Address">
+    <id column="addr_Id" jdbcType="INTEGER" property="addrId" />
+    <result column="addr_province" jdbcType="VARCHAR" property="addrProvince" />
+    <result column="addr_city" jdbcType="VARCHAR" property="addrCity" />
+    <result column="addr_area" jdbcType="VARCHAR" property="addrArea" />
+    <result column="addr_detail" jdbcType="VARCHAR" property="addrDetail" />
+    <result column="addr_user" jdbcType="INTEGER" property="addrUser" />
+    <result column="addr_zipcode" jdbcType="VARCHAR" property="addrZipcode" />
+    <result column="addr_phone" jdbcType="VARCHAR" property="addrPhone" />
+    <result column="addr_nickname" jdbcType="VARCHAR" property="addrNickname" />
+    <result column="addr_state" jdbcType="INTEGER" property="addrState" />
+    <result column="addr_commuity" jdbcType="VARCHAR" property="addrCommuity" />
+    <result column="addr_did" jdbcType="VARCHAR" property="addrDid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    addr_Id, addr_province, addr_city, addr_area, addr_detail, addr_user, addr_zipcode,
+    addr_phone, addr_nickname, addr_state, addr_commuity, addr_did
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from address
+    where addr_Id = #{addrId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from address
+    where addr_Id = #{addrId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.in.market.pojo.address.Address">
+    insert into address (addr_Id, addr_province, addr_city,
+                         addr_area, addr_detail, addr_user,
+                         addr_zipcode, addr_phone, addr_nickname,
+                         addr_state,addr_commuity,addr_did)
+    values (#{addrId,jdbcType=INTEGER}, #{addrProvince,jdbcType=VARCHAR}, #{addrCity,jdbcType=VARCHAR},
+                                        #{addrArea,jdbcType=VARCHAR}, #{addrDetail,jdbcType=VARCHAR}, #{addrUser,jdbcType=INTEGER},
+                                        #{addrZipcode,jdbcType=VARCHAR}, #{addrPhone,jdbcType=VARCHAR}, #{addrNickname,jdbcType=VARCHAR},
+                                        #{addrState,jdbcType=INTEGER},#{addrCommuity,jdbcType=VARCHAR},#{addrDid,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.in.market.pojo.address.Address">
+    update address
+    set addr_province = #{addrProvince,jdbcType=VARCHAR},
+      addr_city = #{addrCity,jdbcType=VARCHAR},
+      addr_area = #{addrArea,jdbcType=VARCHAR},
+      addr_detail = #{addrDetail,jdbcType=VARCHAR},
+      addr_user = #{addrUser,jdbcType=INTEGER},
+      addr_zipcode = #{addrZipcode,jdbcType=VARCHAR},
+      addr_phone = #{addrPhone,jdbcType=VARCHAR},
+      addr_nickname = #{addrNickname,jdbcType=VARCHAR},
+      addr_state = #{addrState,jdbcType=INTEGER},
+      addr_commuity=#{addrCommuity,jdbcType=VARCHAR},
+      addr_did = #{addrDid,jdbcType=VARCHAR}
+    where addr_Id = #{addrId,jdbcType=INTEGER}
+  </update>
+  <select id="queryAllId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from address WHERE addr_user=#{addrUser}
+  </select>
+
+  <select id="selectmaxkey" resultType="int">
+    select max(addr_Id) from address;
+  </select>
+</mapper>

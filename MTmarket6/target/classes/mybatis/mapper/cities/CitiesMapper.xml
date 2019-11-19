@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.cities.CitiesDao">
+    <resultMap id="BaseResultMap" type="com.in.market.pojo.cities.Cities">
+        <id column="city_Id" jdbcType="VARCHAR" property="cityId" />
+        <result column="city_Name" jdbcType="VARCHAR" property="cityName" />
+        <result column="province_Id" jdbcType="VARCHAR" property="provinceId" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        city_Id, city_Name, province_Id
+    </sql>
+    <select id="selectByExample" parameterType="com.in.market.pojo.cities.CitiesExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from cities
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cities
+        where city_Id = #{cityId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from cities
+        where city_Id = #{cityId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.in.market.pojo.cities.CitiesExample">
+        delete from cities
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.in.market.pojo.cities.Cities">
+        insert into cities (city_Id, city_Name, province_Id
+        )
+        values (#{cityId,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.in.market.pojo.cities.Cities">
+        insert into cities
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cityId != null">
+                city_Id,
+            </if>
+            <if test="cityName != null">
+                city_Name,
+            </if>
+            <if test="provinceId != null">
+                province_Id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cityId != null">
+                #{cityId,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null">
+                #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceId != null">
+                #{provinceId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.in.market.pojo.cities.CitiesExample" resultType="java.lang.Long">
+        select count(*) from cities
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update cities
+        <set>
+            <if test="record.cityId != null">
+                city_Id = #{record.cityId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cityName != null">
+                city_Name = #{record.cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.provinceId != null">
+                province_Id = #{record.provinceId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update cities
+        set city_Id = #{record.cityId,jdbcType=VARCHAR},
+        city_Name = #{record.cityName,jdbcType=VARCHAR},
+        province_Id = #{record.provinceId,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.in.market.pojo.cities.Cities">
+        update cities
+        <set>
+            <if test="cityName != null">
+                city_Name = #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceId != null">
+                province_Id = #{provinceId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where city_Id = #{cityId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.in.market.pojo.cities.Cities">
+        update cities
+        set city_Name = #{cityName,jdbcType=VARCHAR},
+            province_Id = #{provinceId,jdbcType=VARCHAR}
+        where city_Id = #{cityId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="queryCitiesByProvinceId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from cities where province_id=#{provinceId}
+    </select>
+</mapper>

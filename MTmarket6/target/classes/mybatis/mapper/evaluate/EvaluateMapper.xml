@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.evaluate.EvaluateDao">
+  <resultMap id="BaseResultMap" type="com.in.market.pojo.evaluate.Evaluate">
+    <id column="eva_Id" jdbcType="INTEGER" property="evaId" />
+    <result column="eva_User" jdbcType="INTEGER" property="evaUser" />
+    <result column="eva_Content" jdbcType="VARCHAR" property="evaContent" />
+    <result column="eva_Date" jdbcType="DATE" property="evaDate" />
+    <result column="eva_Goods" jdbcType="INTEGER" property="evaGoods" />
+    <result column="eva_State" jdbcType="INTEGER" property="evaState" />
+    <result column="eva_level" jdbcType="INTEGER" property="evaLevel" />
+    <result column="user_photo" jdbcType="VARCHAR" property="userPhoto"/>
+    <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+    <!--<collection property="evaimgs" javaType="list" ofType="evaimg"  autoMapping="true"-->
+    <!--column="eva_Id"  select="queryImgByEvaId">-->
+    <!--</collection>-->
+    <!--<collection property="evaimgs" resultMap="EvaimgsMsp"/>-->
+  </resultMap>
+
+  <!--<collection property="evaimgs" resultMap="EvaimgsMsp"/>-->
+
+  <resultMap id="GoodresultMap" type="java.util.HashMap">
+    <result  column="result" property="key" jdbcType="INTEGER"/>
+    <result  column="goodresult" property="value" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="EvaimgsMap" type="com.in.market.pojo.evaimg.Evaimg" autoMapping="true">
+    <id column="evaimg_id" jdbcType="INTEGER" property="evaimgId"/>
+    <result column="evaimg_name" jdbcType="VARCHAR" property="evaimgName"/>
+    <result column="eva" jdbcType="INTEGER" property="eva"/>
+  </resultMap>
+
+
+  <!--上传文件-->
+  <insert id="evaUpload" useGeneratedKeys="true" keyProperty="evaId" parameterType="com.in.market.pojo.evaluate.Evaluate">
+    insert into evaluate(eva_User,eva_Content,eva_Date,eva_Goods,eva_State,eva_level,user_photo,user_name) values (#{evaUser},#{evaContent},#{evaDate},#{evaGoods},#{evaState},#{evaLevel},#{userPhoto},#{userName});
+  </insert>
+
+  <!--根据用户Id查询评论-->
+  <select id="queryAllByUId" parameterType="int" resultMap="BaseResultMap">
+    select * from evaluate where eva_User=#{evaUser};
+  </select>
+
+  <!--根据商品Id查询评论-->
+  <select id="queryByGId" parameterType="int" resultMap="BaseResultMap" >
+    select * from evaluate where eva_Goods=#{goodsId};
+  </select>
+
+  <!-- 根据评论id查询图片-->
+  <select id="queryImgByEvaId" parameterType="Integer" resultMap="EvaimgsMap">
+    select evaimg_id,evaimg_name,eva from evaimg where eva=#{eva_Id}
+  </select>
+  <!-- 根据评论id删除评论 -->
+  <delete id="deleteByevaId" parameterType="int" >
+
+    delete from evaluate where eva_Id=#{evaId};
+  </delete>
+  <!--delete from ep,ev from evaluate ep left join evaimg ev on ep.eva_Id=ev.eva where ep.eva_Id=#{evaId}-->
+
+  <!--修改评论状态-->
+  <update id="updateEva">
+    update evaluate set eva_State=#{1} where eva_Id=#{0};
+  </update>
+
+  <!-- 根据评论程度查询评论 -->
+  <select id="queryBylevel" parameterType="int" resultMap="BaseResultMap">
+    select * from evaluate where eva_level=#{evaLevel};
+  </select>
+
+  <select id="queryImasByeId" parameterType="int" resultType="String">
+    select evaimg_name from evaimg where eva=#{evaId};
+  </select>
+
+  <select id="goodpanel" parameterType="int" resultMap="GoodresultMap">
+    select count(1) as result,sum(case when eva_level>2 then 1 else 0 end ) as goodresult  from evaluate where eva_Goods=#{goodId};
+  </select>
+</mapper>

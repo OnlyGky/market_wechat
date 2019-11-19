@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.wcpay.wcpayDao">
+
+    <resultMap id="BaseResultMap" type="com.in.market.pojo.user.User">
+        <id column="user_Id" jdbcType="INTEGER" property="userId" />
+        <result column="user_Name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_Openid" jdbcType="VARCHAR" property="userOpenid" />
+        <result column="user_Phone" jdbcType="VARCHAR" property="userPhone" />
+        <result column="user_State" jdbcType="INTEGER" property="userState" />
+    </resultMap>
+
+    <!--<select id="getOpenid" resultType="String" parameterType="int">-->
+        <!--select user_Openid from users where user_Id=#{id}-->
+    <!--</select>-->
+</mapper>

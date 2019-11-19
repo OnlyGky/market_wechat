@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.afterSale.AfterSaleDao">
+
+    <resultMap id="afterSaleMapper" type="com.in.market.pojo.afterSale.AfterSale">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="orderdet_id" property="orderdetId"/>
+        <result column="user_id" property="userId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_Name" property="goodsName"/>
+        <result column="count" property="count"/>
+        <result column="goods_price" property="goodsPrice"/>
+        <result column="money" property="money"/>
+        <result column="quest_type" property="questType"/>
+        <result column="quest_desc" property="questDesc"/>
+        <result column="quest_imgs" property="questImgs"/>
+        <result column="quest_date" property="questDate"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.in.market.pojo.afterSale.AfterSale">
+        insert into after_sale
+        values (null ,#{orderId},#{orderdetId},#{userId},#{goodsId},#{goodsName},#{count},#{goodsPrice},#{money},#{questType},#{questDesc},#{questImgs},#{questDate},#{status})
+    </insert>
+
+    <update id="updateStatus" parameterType="java.util.Map">
+        update after_sale
+        set status = #{status}
+        where id = #{id}
+    </update>
+
+    <select id="findAll" resultMap="afterSaleMapper">
+        select * from after_sale
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from after_sale where id = #{id}
+    </delete>
+
+</mapper>

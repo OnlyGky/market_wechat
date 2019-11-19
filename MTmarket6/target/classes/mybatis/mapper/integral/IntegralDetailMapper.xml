@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.integral.IntegralDetailDao">
+
+    <sql id="tableName">`integral_detail`</sql>
+
+    <resultMap id="integralDetailResult" type="com.in.market.pojo.integral.IntegralDetail" autoMapping="true">
+        <id column="integral_detail_id" property="integralDetailId"/>
+        <result column="integral_user" property="integralUser"/>
+
+        <result column="integral_detail_change" property="integralDetailChange"/>
+        <result column="integral_detail_desc" property="integralDetailDesc"/>
+        <result column="integral_detail_date" property="integralDetailDate"/>
+        <result column="integral_detail_rest" property="integralDetailRest"/>
+
+    </resultMap>
+
+    <select id="queryIntegralDetailByUserId" parameterType="Integer" resultType="com.in.market.pojo.integral.IntegralDetail" resultMap="integralDetailResult">
+        select *
+        from <include refid="tableName"/>
+        where integral_user = #{userId}
+    </select>
+
+    <insert id="addIntegralDetail" parameterType="com.in.market.pojo.integral.IntegralDetail">
+        insert into <include refid="tableName"/>
+        values (#{integralDetailId},#{integralUser},#{integralDetailChange},#{integralDetailDesc},#{integralDetailDate},#{integralDetailRest})
+    </insert>
+
+    <delete id="deleteIntegralDetailsByUserId" parameterType="Integer">
+        delete from <include refid="tableName"/>
+        where integral_user = #{userId}
+    </delete>
+
+</mapper>

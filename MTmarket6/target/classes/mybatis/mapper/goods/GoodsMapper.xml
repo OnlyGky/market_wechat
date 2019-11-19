@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.goods.GoodsDao">
+    <resultMap id="goodsMap" type="com.in.market.pojo.goods.Goods" >
+        <id column="goods_Id" property="goodsId" />
+        <result column="goods_Name" property="goodsName" />
+        <result column="goods_Price" property="goodsPrice" />
+        <result column="goods_Num" property="goodsNum" />
+        <result column="goods_Img" property="goodsImg" />
+        <result column="goods_State" property="goodsState"/>
+        <result column="goods_Desc" property="goodsDesc" />
+        <result column="goods_volume" property="goodsVolume" />
+        <!--<association property="goodsType" select="com.in.market.dao.goods.GoodsTypeDao.queryById" column="goods_Type" />-->
+    </resultMap>
+    <update id="updateForGoodsVolume">
+        update goods set goods_volume = goods_volume + #{num} where goods_Id = #{goodsId}
+    </update>
+    <select id="queryById" resultMap="goodsMap" resultType="com.in.market.pojo.goods.Goods">
+        select * from goods where goods_Id = #{id}
+    </select>
+    <select id="queryAll" resultMap="goodsMap" resultType="com.in.market.pojo.goods.Goods">
+        select * from goods where goods_State != -1
+    </select>
+    <select id="queryAllOrderByVolume" resultMap="goodsMap" resultType="com.in.market.pojo.goods.Goods" >
+        select * from goods where goods_State != -1 order by goods_volume desc
+    </select>
+    <select id="queryAllForType" resultMap="goodsMap" resultType="com.in.market.pojo.goods.Goods">
+        select * from goods where goods_Type = #{typeId} and goods_State != -1
+    </select>
+    <select id="queryAllForTypeByVolume" resultMap="goodsMap" resultType="com.in.market.pojo.goods.Goods">
+        select * from goods where goods_Type = #{typeId} and goods_State != -1 order by goods_volume desc
+    </select>
+    <select id="queryAllForState" resultMap="goodsMap" resultType="com.in.market.pojo.goods.Goods">
+        select * from goods where goods_State = #{state}
+    </select>
+
+</mapper>

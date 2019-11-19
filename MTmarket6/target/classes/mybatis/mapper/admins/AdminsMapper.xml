@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.admins.AdminsDao">
+  <resultMap id="BaseResultMap" type="com.in.market.pojo.admins.Admins">
+    <id column="admin_Id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_Name" jdbcType="VARCHAR" property="adminName" />
+    <result column="admin_Phone" jdbcType="VARCHAR" property="adminPhone" />
+    <result column="admin_Date" jdbcType="DATE" property="adminDate" />
+    <result column="admin_State" jdbcType="INTEGER" property="adminState" />
+    <result column="admin_Role" jdbcType="INTEGER" property="adminRole" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    admin_Id, admin_Name, admin_Phone, admin_Date, admin_State, admin_Role
+  </sql>
+  <select id="selectByExample" parameterType="com.in.market.pojo.admins.AdminsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admins
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admins
+    where admin_Id = #{adminId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admins
+    where admin_Id = #{adminId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.in.market.pojo.admins.AdminsExample">
+    delete from admins
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.in.market.pojo.admins.Admins">
+    insert into admins (admin_Id, admin_Name, admin_Phone, 
+      admin_Date, admin_State, admin_Role
+      )
+    values (#{adminId,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, #{adminPhone,jdbcType=VARCHAR}, 
+      #{adminDate,jdbcType=DATE}, #{adminState,jdbcType=INTEGER}, #{adminRole,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.in.market.pojo.admins.Admins">
+    insert into admins
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        admin_Id,
+      </if>
+      <if test="adminName != null">
+        admin_Name,
+      </if>
+      <if test="adminPhone != null">
+        admin_Phone,
+      </if>
+      <if test="adminDate != null">
+        admin_Date,
+      </if>
+      <if test="adminState != null">
+        admin_State,
+      </if>
+      <if test="adminRole != null">
+        admin_Role,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhone != null">
+        #{adminPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="adminDate != null">
+        #{adminDate,jdbcType=DATE},
+      </if>
+      <if test="adminState != null">
+        #{adminState,jdbcType=INTEGER},
+      </if>
+      <if test="adminRole != null">
+        #{adminRole,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.in.market.pojo.admins.AdminsExample" resultType="java.lang.Long">
+    select count(*) from admins
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update admins
+    <set>
+      <if test="record.adminId != null">
+        admin_Id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminName != null">
+        admin_Name = #{record.adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminPhone != null">
+        admin_Phone = #{record.adminPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminDate != null">
+        admin_Date = #{record.adminDate,jdbcType=DATE},
+      </if>
+      <if test="record.adminState != null">
+        admin_State = #{record.adminState,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminRole != null">
+        admin_Role = #{record.adminRole,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update admins
+    set admin_Id = #{record.adminId,jdbcType=INTEGER},
+      admin_Name = #{record.adminName,jdbcType=VARCHAR},
+      admin_Phone = #{record.adminPhone,jdbcType=VARCHAR},
+      admin_Date = #{record.adminDate,jdbcType=DATE},
+      admin_State = #{record.adminState,jdbcType=INTEGER},
+      admin_Role = #{record.adminRole,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.in.market.pojo.admins.Admins">
+    update admins
+    <set>
+      <if test="adminName != null">
+        admin_Name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhone != null">
+        admin_Phone = #{adminPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="adminDate != null">
+        admin_Date = #{adminDate,jdbcType=DATE},
+      </if>
+      <if test="adminState != null">
+        admin_State = #{adminState,jdbcType=INTEGER},
+      </if>
+      <if test="adminRole != null">
+        admin_Role = #{adminRole,jdbcType=INTEGER},
+      </if>
+    </set>
+    where admin_Id = #{adminId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.in.market.pojo.admins.Admins">
+    update admins
+    set admin_Name = #{adminName,jdbcType=VARCHAR},
+      admin_Phone = #{adminPhone,jdbcType=VARCHAR},
+      admin_Date = #{adminDate,jdbcType=DATE},
+      admin_State = #{adminState,jdbcType=INTEGER},
+      admin_Role = #{adminRole,jdbcType=INTEGER}
+    where admin_Id = #{adminId,jdbcType=INTEGER}
+  </update>
+</mapper>

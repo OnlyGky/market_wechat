@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.evaimg.EvaimgDao">
+  <resultMap id="BaseResultMap" type="com.in.market.pojo.evaimg.Evaimg">
+    <id column="evaimg_id" jdbcType="INTEGER" property="evaimgId" />
+    <result column="evaimg_name" jdbcType="VARCHAR" property="evaimgName" />
+    <result column="eva" jdbcType="INTEGER" property="eva" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    evaimg_id, evaimg_name, eva
+  </sql>
+  <select id="selectByExample" parameterType="com.in.market.pojo.evaimg.EvaimgExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evaimg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evaimg
+    where evaimg_id = #{evaimgId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evaimg
+    where evaimg_id = #{evaimgId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.in.market.pojo.evaimg.EvaimgExample">
+    delete from evaimg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.in.market.pojo.evaimg.Evaimg">
+    insert into evaimg (evaimg_id, evaimg_name, eva
+      )
+    values (#{evaimgId,jdbcType=INTEGER}, #{evaimgName,jdbcType=VARCHAR}, #{eva,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.in.market.pojo.evaimg.Evaimg">
+    insert into evaimg
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="evaimgId != null">
+        evaimg_id,
+      </if>
+      <if test="evaimgName != null">
+        evaimg_name,
+      </if>
+      <if test="eva != null">
+        eva,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="evaimgId != null">
+        #{evaimgId,jdbcType=INTEGER},
+      </if>
+      <if test="evaimgName != null">
+        #{evaimgName,jdbcType=VARCHAR},
+      </if>
+      <if test="eva != null">
+        #{eva,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.in.market.pojo.evaimg.EvaimgExample" resultType="java.lang.Long">
+    select count(*) from evaimg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evaimg
+    <set>
+      <if test="record.evaimgId != null">
+        evaimg_id = #{record.evaimgId,jdbcType=INTEGER},
+      </if>
+      <if test="record.evaimgName != null">
+        evaimg_name = #{record.evaimgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eva != null">
+        eva = #{record.eva,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evaimg
+    set evaimg_id = #{record.evaimgId,jdbcType=INTEGER},
+      evaimg_name = #{record.evaimgName,jdbcType=VARCHAR},
+      eva = #{record.eva,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.in.market.pojo.evaimg.Evaimg">
+    update evaimg
+    <set>
+      <if test="evaimgName != null">
+        evaimg_name = #{evaimgName,jdbcType=VARCHAR},
+      </if>
+      <if test="eva != null">
+        eva = #{eva,jdbcType=INTEGER},
+      </if>
+    </set>
+    where evaimg_id = #{evaimgId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.in.market.pojo.evaimg.Evaimg">
+    update evaimg
+    set evaimg_name = #{evaimgName,jdbcType=VARCHAR},
+      eva = #{eva,jdbcType=INTEGER}
+    where evaimg_id = #{evaimgId,jdbcType=INTEGER}
+  </update>
+</mapper>

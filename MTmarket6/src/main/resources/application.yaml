@@ -1,0 +1,36 @@
+
+spring:
+  datasource:
+#   数据源基本配置
+    username: root
+
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.98.104.40:3306/MTkarket?useUnicode=true&characterEncoding=UTF-8&useSSL=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    type: com.alibaba.druid.pool.DruidDataSource
+#   数据源其他配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+  mvc:
+    static-path-pattern: /images/**
+  resources:
+    static-locations: file:/root/images/
+
+redis:
+    host: localhost
+    port: 6379
+pagehelper:
+  reasonable: true
+
+
+com.llxs.images.afterSale: D:\MTmarket开发文档\MTmarket2\src\main\resources\static\images\afterSale\
+

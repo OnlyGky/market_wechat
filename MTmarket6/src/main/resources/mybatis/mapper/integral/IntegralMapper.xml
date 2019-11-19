@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.integral.IntegralDao">
+
+    <sql id="tableName">`integral`</sql>
+
+    <resultMap id="integralResult" type="com.in.market.pojo.integral.Integral" autoMapping="true">
+        <id column="integral_user" property="integralUser"/>
+        <result column="integral_total" property="integralTotal"/>
+    </resultMap>
+
+
+
+    <insert id="add" parameterType="com.in.market.pojo.integral.Integral">
+        insert into  <include refid="tableName"/>
+        values (#{integralTotal},#{integralUser})
+    </insert>
+
+    <select id="queryTotalByUserId" parameterType="Integer" resultType="java.lang.Long">
+        select integral_total
+        from <include refid="tableName"/>
+        where integral_user = #{integralUser}
+    </select>
+
+    <update id="updateIntegralByUserId" parameterType="com.in.market.pojo.integral.Integral">
+        update <include refid="tableName"/>
+        set integral_total = #{integralTotal}
+        where integral_user = #{integralUser}
+    </update>
+
+</mapper>

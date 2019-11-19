@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.commuity.CommuityDao">
+    <resultMap id="BaseResultMap" type="com.in.market.pojo.commuity.Commuity">
+    <id column="c_id" jdbcType="INTEGER" property="cId" />
+    <result column="c_Name" jdbcType="VARCHAR" property="cName" />
+    <result column="c_abbr" jdbcType="VARCHAR" property="cAbbr" />
+    </resultMap>
+    <select id="query" resultMap="BaseResultMap">
+        select * from commuity;
+    </select>
+    <select id="querBycommuity" resultType="String">
+        select c_abbr from commuity where c_name=#{addrCommuity}
+    </select>
+</mapper>
+

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.order.OrderDao">
+
+
+    <sql id="tableName">`order`</sql>
+
+    <resultMap id="orderResultMap" type="com.in.market.pojo.order.Order" autoMapping="true">
+        <id column="order_Id" property="orderId"/>
+        <result column="order_User" property="orderUser"/>
+        <result column="order_Date" property="orderDate"/>
+        <result column="order_Price" property="orderPrice"/>
+        <result column="order_State" property="orderState"/>
+        <result column="order_UserName" property="orderUserName"/>
+        <result column="order_Phone" property="orderPhone"/>
+        <result column="order_Address" property="orderAddress"/>
+        <result column="order_ExpressNo" property="orderExpressNo"/>
+        <result column="order_dispatchType" property="orderDispatchType"/>
+
+        <!--<association property="user" javaType="com.in.market.pojo.user.User" column="order_User" select="com.in.market.dao.user.UserDao.getUId" autoMapping="true"/>-->
+        <collection property="orderDetails" javaType="list"  ofType="OrderDetail" autoMapping="true" column="order_Id" select="com.in.market.dao.order.OrderDetailDao.queryOrderDetailByOrderId">
+        </collection>
+
+    </resultMap>
+
+    <!--<resultMap id="orderDetailsResultMap" type="OrderDetail" autoMapping="true">-->
+    <!--<id column="detail_Id" property="detailId"/>-->
+    <!--<result column="detail_Order" property="detailOrder"/>-->
+    <!--<result column="detail_Goods" property="detailGoods"/>-->
+    <!--<result column="detail_Price" property="detailPrice"/>-->
+    <!--<result column="detail_Num" property="detailNum"/>-->
+    <!--<association property="goods" javaType="Goods" column="detail_Goods" select="com.in.market.mapper.GoodsDao.queryGoodsByGoodsId" autoMapping="true"/>-->
+    <!--</resultMap>-->
+
+    <!--<resultMap id="orderUserResultMap" type="User" autoMapping="true">-->
+    <!--<id column="user_Id" property="userId" />-->
+    <!--<result column="user_Name" property="userName"/>-->
+    <!--<result column="user_Openid" property="userOpenid"/>-->
+    <!--<result column="user_Phone" property="userPhone"/>-->
+    <!--<result column="user_State" property="userState"/>-->
+    <!--</resultMap>-->
+
+
+    <!--<insert id="saveOrder" parameterType="com.in.market.pojo.order.Order">-->
+    <!--insert into <include refid="tableName"/> values (#{orderId},#{orderUser},#{orderDate},#{orderPrice},#{orderState},#{orderUserName},#{orderPhone},#{orderAddress},#{orderExpressNo});-->
+    <!--insert into order_detail (detail_Order,detail_Goods,detail_Price,detail_Num) values-->
+    <!--<foreach collection="orderDetails" item="detail" separator=",">-->
+    <!--(#{orderId},#{detail.detailGoods},#{detail.detailPrice},#{detail.detailNum})-->
+    <!--</foreach>-->
+    <!--;-->
+    <!--</insert>-->
+    <insert id="saveOrder" parameterType="com.in.market.pojo.order.Order">
+        insert into <include refid="tableName"/> values (#{orderId},#{orderUser},#{orderDate},#{orderPrice},#{orderState},#{orderUserName},#{orderPhone},#{orderAddress},#{orderExpressNo},#{orderDispatchType});
+        insert into order_detail (detail_Order,detail_Goods,detail_Price,detail_Num) values
+        <foreach collection="orderDetails" item="detail" separator=",">
+            (#{orderId},#{detail.detailGoods},#{detail.detailPrice},#{detail.detailNum})
+        </foreach>
+        ;
+    </insert>
+
+    <!--<select id="queryOrderDetilsByOrderId" resultType="OrderDetail" parameterType="String" resultMap="orderDetailsResultMap">-->
+    <!--select * from order_detail where detail_Order = #{orderId}-->
+    <!--</select>-->
+
+
+    <select id="queryOrderByOrderId" resultType="com.in.market.pojo.order.Order" resultMap="orderResultMap">
+        select * from <include refid="tableName"/>
+        where order_Id = #{orderId}
+        order by order_Date DESC
+    </select>
+
+    <!--<select id="queryGoodsByGoodsId" parameterType="Integer" resultType="Goods">-->
+    <!--select * from goods where goods_Id = #{detailGoods}-->
+    <!--</select>-->
+
+
+
+    <!--<select id="queryUserByUserId" parameterType="Integer" resultType="User" resultMap="orderUserResultMap">-->
+    <!--select * from `users` where user_Id = #{orderUser}-->
+    <!--</select>-->
+
+    <select id="queryByUserId" parameterType="Integer" resultType="com.in.market.pojo.order.Order" resultMap="orderResultMap">
+        select * from <include refid="tableName"/> where order_User = #{orderUser} order by order_Date DESC
+    </select>
+
+    <select id="queryOrderByUserIdAndState" parameterType="java.util.Map" resultType="com.in.market.pojo.order.Order" resultMap="orderResultMap">
+        select * from <include refid="tableName"/> where order_User = #{orderUser} and order_State = #{orderState} order by order_Date DESC
+    </select>
+
+    <!---->
+    <select id="queryOrderByCommuityName" resultMap="orderResultMap" resultType="com.in.market.pojo.order.Order" parameterType="String">
+        select * from `order` o where `order_Address` like "%"#{commuityName}"%" AND DATEDIFF(NOW(),o.order_Date)=1 AND (o.order_State = 2 OR o.order_State = 3)
+    </select>
+
+
+
+    <!--更新订单状态-->
+    <update id="changeOrderStatus" parameterType="com.in.market.pojo.order.Order">
+        update <include refid="tableName"/> set order_State = #{orderState} where order_Id = #{orderId}
+    </update>
+    <update id="changeOrderStatus2" parameterType="java.lang.String">
+        update <include refid="tableName"/> set order_State = 2 where order_Id = #{orderId}
+    </update>
+
+
+    <!--删除订单-->
+    <delete id="deleteOrderByOrderId" parameterType="String">
+        delete from <include refid="tableName"/> where  order_Id = #{orderId}
+    </delete>
+</mapper>

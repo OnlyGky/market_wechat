@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.in.market.dao.order.OrderDetailDao">
+
+    <sql id="table">`order_detail`</sql>
+
+    <resultMap id="orderDetailsResultMap" type="com.in.market.pojo.order.OrderDetail" autoMapping="true">
+        <id column="detail_Id" property="detailId"/>
+        <result column="detail_Order" property="detailOrder"/>
+        <result column="detail_Goods" property="detailGoods"/>
+        <result column="detail_Price" property="detailPrice"/>
+        <result column="detail_Num" property="detailNum"/>
+        <association property="goods" javaType="com.in.market.pojo.goods.Goods" column="detail_Goods" select="com.in.market.dao.goods.GoodsDao.queryById" autoMapping="true"/>
+    </resultMap>
+
+    <select id="queryOrderDetailByOrderId" resultType="com.in.market.pojo.order.OrderDetail" parameterType="String" resultMap="orderDetailsResultMap">
+        select * from
+        <include refid="table" />
+        where detail_Order = #{detailOrder};
+
+    </select>
+
+
+    <select id="queryGoodsByOrderDetailId" resultType="com.in.market.pojo.order.OrderDetail" parameterType="Integer">
+        select * from goods where goods_Id = #{detailGoods}
+    </select>
+
+    <delete id="deleteOrderDetailByOrderId" parameterType="String">
+        delete from <include refid="table" />
+        where detail_Order = #{orderId}
+    </delete>
+</mapper>
